@@ -184,10 +184,11 @@
                 <li>每周按时完成课程，个人积分 +1</li>
                 <li>每周按时提交作业，个人积分 +1</li>
                 <li>每周按时分享笔记，个人积分 +1</li>
-                <li>个人得分 = 课程完成 + 作业提交 + 笔记分享</li>
+                <li>每周完成OJ题目，个人积分 +1</li> <!-- 新增OJ规则 -->
+                <li>个人得分 = 课程完成 + 作业提交 + 笔记分享 + OJ完成</li> <!-- 修改计算规则 -->
                 <li>小组总分 = 组内所有学生的个人得分之和</li>
                 <li>积分排名前三的小组将评为「优秀小组」</li>
-                <li>根据表彰标记，前10名同学将评为「优秀个人」</li>
+                <li>每周任务全部完成且前10名完成的同学将评为「优秀个人」</li>
             </ul>
         </div>
 
@@ -331,15 +332,16 @@
                     // 跳过表头，解析数据行
                     lines.slice(1).forEach(line => {
                         if (!line.trim()) return; // 跳过空行
-                        // 解析新增的是否表彰列（第6列）
-                        const [groupNum, name, course, homework, note, isHonor] = line.split(',').map(item => item.trim().replace(/"/g, ''));
+                        // 解析新增的OJ列（第6列）、是否表彰列（第7列）
+                        const [groupNum, name, course, homework, note, oj, isHonor] = line.split(',').map(item => item.trim().replace(/"/g, ''));
                         
                         // 数据验证
                         const g = parseInt(groupNum) || 0;
                         const c = parseInt(course) || 0;
                         const h = parseInt(homework) || 0;
                         const n = parseInt(note) || 0;
-                        const score = c + h + n;
+                        const o = parseInt(oj) || 0; // 新增OJ积分
+                        const score = c + h + n + o; // 修改积分计算规则（新增OJ）
                         // 解析是否表彰标记（1=表彰，0=不表彰）
                         const honorFlag = parseInt(isHonor) || 0;
 
@@ -349,6 +351,7 @@
                                 course: c,
                                 homework: h,
                                 note: n,
+                                oj: o, // 新增OJ字段
                                 score: score,
                                 groupNum: g,
                                 isHonor: honorFlag // 新增是否表彰标记
@@ -358,7 +361,7 @@
                         }
                     });
 
-                    if (validCount === 0) throw new Error('未解析到有效数据，请检查CSV列顺序：小组,姓名,课程,作业,笔记,是否表彰');
+                    if (validCount === 0) throw new Error('未解析到有效数据，请检查CSV列顺序：小组,姓名,课程,作业,笔记,OJ,是否表彰');
                     
                     // 渲染页面
                     renderGroupData();
@@ -383,7 +386,7 @@
 
                 studentListEl.innerHTML = '';
 
-                // 渲染表头
+                // 渲染表头（新增OJ列）
                 studentListEl.innerHTML += `
                     <div class="student-item font-bold text-yellow-300">
                         <div class="student-name">姓名</div>
@@ -391,6 +394,7 @@
                             <div class="score-item">课程</div>
                             <div class="score-item">作业</div>
                             <div class="score-item">笔记</div>
+                            <div class="score-item">OJ</div> <!-- 新增OJ表头 -->
                             <div class="score-item">个人分</div>
                         </div>
                     </div>
@@ -415,6 +419,7 @@
                                     <div class="score-item">${student.course}</div>
                                     <div class="score-item">${student.homework}</div>
                                     <div class="score-item">${student.note}</div>
+                                    <div class="score-item">${student.oj}</div> <!-- 新增OJ数据列 -->
                                     <div class="score-item text-yellow-300">${student.score}</div>
                                 </div>
                             </div>
