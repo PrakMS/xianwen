@@ -188,7 +188,7 @@
                 <li>个人得分 = 课程完成 + 作业提交 + 笔记分享 + OJ完成</li> <!-- 修改计算规则 -->
                 <li>小组总分 = 组内所有学生的个人得分之和</li>
                 <li>积分排名前三的小组将评为「优秀小组」</li>
-                <li>每周任务全部完成且前10名完成的同学将评为「优秀个人」</li>
+                <li>每周前10名全部任务都完成的同学将评为「优秀个人」</li>
             </ul>
         </div>
 
@@ -509,7 +509,7 @@
                 const item = document.createElement('div');
                 item.className = 'excellent-person-item';
                 item.innerHTML = `
-                    第${index+1}名：${student.name} <span class="person-score">${student.score}分</span>
+                   优秀个人：${student.name} <span class="person-score">${student.score}分</span>
                     <div class="person-group">${student.groupNum}组</div>
                 `;
                 excellentPersonList.appendChild(item);
