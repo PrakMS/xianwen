@@ -187,14 +187,14 @@
                 <li>个人得分 = 课程完成 + 作业提交 + 笔记分享</li>
                 <li>小组总分 = 组内所有学生的个人得分之和</li>
                 <li>积分排名前三的小组将评为「优秀小组」</li>
-                <li>个人积分排名前5（含同分）将评为「优秀个人」</li>
+                <li>根据表彰标记，前10名同学将评为「优秀个人」</li>
             </ul>
         </div>
 
         
         <div class="excellent-person-section">
             <h2 class="excellent-title"><i class="fa fa-user-circle mr-3"></i>优秀个人表彰</h2>
-            <p class="text-lg text-gray-200 mb-4">根据个人积分排名，以下同学荣获本期优秀个人称号！</p>
+            <p class="text-lg text-gray-200 mb-4">根据表彰标记，以下同学荣获本期优秀个人称号！</p>
             <div id="excellentPersonList" class="excellent-person-list">
                 <div class="excellent-person-item">
                     数据加载中...
@@ -331,7 +331,8 @@
                     // 跳过表头，解析数据行
                     lines.slice(1).forEach(line => {
                         if (!line.trim()) return; // 跳过空行
-                        const [groupNum, name, course, homework, note] = line.split(',').map(item => item.trim().replace(/"/g, ''));
+                        // 解析新增的是否表彰列（第6列）
+                        const [groupNum, name, course, homework, note, isHonor] = line.split(',').map(item => item.trim().replace(/"/g, ''));
                         
                         // 数据验证
                         const g = parseInt(groupNum) || 0;
@@ -339,6 +340,8 @@
                         const h = parseInt(homework) || 0;
                         const n = parseInt(note) || 0;
                         const score = c + h + n;
+                        // 解析是否表彰标记（1=表彰，0=不表彰）
+                        const honorFlag = parseInt(isHonor) || 0;
 
                         if (g >= 1 && g <= 12 && name) {
                             allGroupData[g].students.push({
@@ -347,14 +350,15 @@
                                 homework: h,
                                 note: n,
                                 score: score,
-                                groupNum: g // 新增小组编号，方便展示
+                                groupNum: g,
+                                isHonor: honorFlag // 新增是否表彰标记
                             });
                             allGroupData[g].total += score;
                             validCount++;
                         }
                     });
 
-                    if (validCount === 0) throw new Error('未解析到有效数据，请检查CSV列顺序：小组,姓名,课程,作业,笔记');
+                    if (validCount === 0) throw new Error('未解析到有效数据，请检查CSV列顺序：小组,姓名,课程,作业,笔记,是否表彰');
                     
                     // 渲染页面
                     renderGroupData();
@@ -402,9 +406,11 @@
                 } else {
                     group.students.forEach((student, index) => {
                         const bgClass = index % 2 === 0 ? 'bg-rgba(255,255,255,0.05)' : '';
+                        // 表彰学生添加特殊样式
+                        const honorClass = student.isHonor === 1 ? 'text-green-400 font-bold' : '';
                         studentListEl.innerHTML += `
-                            <div class="student-item ${bgClass}">
-                                <div class="student-name">${student.name}</div>
+                            <div class="student-item ${bgClass} ${honorClass}">
+                                <div class="student-name">${student.name}${student.isHonor === 1 ? ' 🏆' : ''}</div>
                                 <div class="student-scores">
                                     <div class="score-item">${student.course}</div>
                                     <div class="score-item">${student.homework}</div>
@@ -464,64 +470,41 @@
             });
         }
 
-        // 新增：筛选并渲染优秀个人（最多5个，同分全部展示）
+        // 修改：筛选并渲染优秀个人（只展示isHonor=1的学生，最多前10名）
         function selectExcellentPersons() {
             const excellentPersonList = document.getElementById('excellentPersonList');
             excellentPersonList.innerHTML = '';
 
-            // 收集所有学生数据
-            let allStudents = [];
+            // 收集所有标记为表彰的学生（isHonor=1）
+            let honorStudents = [];
             for (let groupNum = 1; groupNum <= 12; groupNum++) {
-                allStudents = allStudents.concat(
-                    allGroupData[groupNum].students.map(student => ({
-                        ...student,
-                        groupNum: groupNum
-                    }))
+                honorStudents = honorStudents.concat(
+                    allGroupData[groupNum].students
+                        .filter(student => student.isHonor === 1) // 只筛选标记为1的学生
+                        .map(student => ({
+                            ...student,
+                            groupNum: groupNum
+                        }))
                 );
             }
 
-            // 过滤掉积分为0的学生
-            allStudents = allStudents.filter(student => student.score > 0);
-
             // 无有效数据时的提示
-            if (allStudents.length === 0) {
+            if (honorStudents.length === 0) {
                 excellentPersonList.innerHTML = '<div class="excellent-person-item">暂无优秀个人</div>';
                 return;
             }
 
-            // 按积分降序排序
-            const sortedStudents = allStudents.sort((a, b) => b.score - a.score);
-
-            // 筛选优秀个人：最多5个，同分全部展示
-            let excellentPersons = [];
-            if (sortedStudents.length > 0) {
-                // 先取前5个作为基础
-                excellentPersons = sortedStudents.slice(0, 5);
-                // 获取第5个的分数（如果不足5个，取最后一个的分数）
-                const thresholdScore = excellentPersons[excellentPersons.length - 1].score;
-                // 检查后面是否有同分的学生，全部加入
-                if (sortedStudents.length > 5) {
-                    for (let i = 5; i < sortedStudents.length; i++) {
-                        if (sortedStudents[i].score === thresholdScore) {
-                            excellentPersons.push(sortedStudents[i]);
-                        } else {
-                            break; // 分数不同，停止查找
-                        }
-                    }
-                }
-            }
+            // 按积分降序排序，最多展示前10名
+            const sortedHonorStudents = honorStudents
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10); // 限制最多展示10名
 
             // 渲染优秀个人
-            if (excellentPersons.length === 0) {
-                excellentPersonList.innerHTML = '<div class="excellent-person-item">暂无优秀个人</div>';
-                return;
-            }
-
-            excellentPersons.forEach((student, index) => {
+            sortedHonorStudents.forEach((student, index) => {
                 const item = document.createElement('div');
                 item.className = 'excellent-person-item';
                 item.innerHTML = `
-                    ${student.name} <span class="person-score">${student.score}分</span>
+                    第${index+1}名：${student.name} <span class="person-score">${student.score}分</span>
                     <div class="person-group">${student.groupNum}组</div>
                 `;
                 excellentPersonList.appendChild(item);
