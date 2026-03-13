@@ -226,6 +226,7 @@
             /* 降低优秀小组展示项亮度 */
             box-shadow: 0 0 10px rgba(255,215,0,0.4);
             z-index: 1;
+            margin: 10px;
         }
         .excellent-item::after {
             content: '';
@@ -590,41 +591,34 @@
                 return;
             }
 
-            // 2. 重新处理并列排名逻辑（修复：确保前三名完整展示）
-            const rankedGroups = [];
-            let currentRank = 1;
+            // 2. 重新处理排名逻辑 - 核心修复点
+            // 步骤1：提取所有不同的分数，降序排列
+            const uniqueScores = [...new Set(sortedGroups.map(g => g.total))].sort((a, b) => b - a);
+            // 步骤2：只取前3个分数（对应1、2、3名）
+            const top3Scores = uniqueScores.slice(0, 3);
             
-            // 先给所有小组标记排名（处理并列）
-            for (let i = 0; i < sortedGroups.length; i++) {
-                const current = sortedGroups[i];
-                const prev = sortedGroups[i - 1];
+            // 步骤3：按分数分组（每个分数对应一个排名）
+            const rankMap = {};
+            top3Scores.forEach((score, index) => {
+                rankMap[score] = index + 1; // 第1个分数=第1名，第2个=第2名，第3个=第3名
+            });
 
-                // 如果不是第一个且积分不同，更新排名
-                if (i > 0 && current.total !== prev.total) {
-                    currentRank = i + 1;
-                }
+            // 步骤4：给每个小组标记正确的排名
+            const rankedGroups = sortedGroups.map(group => ({
+                ...group,
+                rank: rankMap[group.total] || null // 只保留前3名的小组
+            })).filter(group => group.rank !== null); // 过滤掉非前三名的小组
 
-                // 标记排名并加入列表
-                rankedGroups.push({
-                    ...current,
-                    rank: currentRank
-                });
-            }
-
-            // 3. 强制筛选前3名（包含所有排名≤3的小组，修复漏显示第二名问题）
-            const topThreeGroups = rankedGroups.filter(group => group.rank <= 3);
-
-            // 4. 按排名分组（方便渲染并列小组）
+            // 3. 按排名分组（方便渲染并列小组）
             const rankGroups = {};
-            topThreeGroups.forEach(group => {
+            rankedGroups.forEach(group => {
                 if (!rankGroups[group.rank]) {
                     rankGroups[group.rank] = [];
                 }
                 rankGroups[group.rank].push(group);
             });
 
-            // 5. 渲染优秀小组区域和卡片标识（确保所有前三相关小组都展示）
-            // 强制补全1-3名的展示（即使某排名无数据）
+            // 4. 强制按1、2、3名的顺序渲染，确保每个排名都展示
             for (let rank = 1; rank <= 3; rank++) {
                 const groups = rankGroups[rank] || [];
                 if (groups.length === 0) continue; // 无该排名数据则跳过
