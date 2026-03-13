@@ -28,28 +28,30 @@
         .card:hover {
             transform: translateY(-5px);
         }
-        /* 优化优秀小组卡片样式 - 增加闪耀边框 */
+        /* 强化优秀小组卡片闪耀效果 */
         .excellent-card {
-            border: 3px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255,215,0,0.5), 0 0 30px rgba(255,215,0,0.3);
-            /* 闪耀动画 */
-            animation: glow-border 2s ease-in-out infinite alternate;
+            border: 4px solid #ffd700;
             position: relative;
+            z-index: 1;
+            /* 多层阴影+强闪耀动画 */
+            box-shadow: 0 0 25px #ffd700, 0 0 50px rgba(255,215,0,0.6), 0 0 75px rgba(255,215,0,0.4);
+            animation: glow-border 1.5s ease-in-out infinite alternate;
         }
-        /* 优秀小组卡片闪耀边框伪元素 */
+        /* 强化渐变边框动画 */
         .excellent-card::before {
             content: '';
             position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
             border-radius: 15px;
-            background: linear-gradient(45deg, #ffd700, #fff, #ffd700);
-            background-size: 200% 200%;
-            animation: glow-gradient 3s ease infinite;
+            background: linear-gradient(45deg, #ffd700, #fff, #ffd700, #ff9800, #ffd700);
+            background-size: 400% 400%;
+            animation: glow-gradient 2s ease infinite;
             z-index: -1;
-            opacity: 0.8;
+            opacity: 1;
+            filter: blur(2px);
         }
         .excellent-badge {
             position: absolute;
@@ -61,10 +63,9 @@
             padding: 8px 15px;
             border-radius: 50px;
             font-size: 14px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 0 15px rgba(255,215,0,0.8);
             z-index: 10;
-            /* 徽章也添加轻微闪耀 */
-            animation: glow-text 2s ease-in-out infinite alternate;
+            animation: glow-text 1.5s ease-in-out infinite alternate;
         }
         .student-list {
             max-height: 350px;
@@ -121,7 +122,7 @@
             font-weight: bold;
             color: #ffd700;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255,215,0,0.8);
+            text-shadow: 0 0 15px rgba(255,215,0,1);
         }
         .refresh-btn {
             background-color: #ffd700;
@@ -134,13 +135,13 @@
             cursor: pointer;
             margin: 0 auto 20px;
             display: block;
-            box-shadow: 0 4px 8px rgba(255,215,0,0.3);
+            box-shadow: 0 0 15px rgba(255,215,0,0.5);
             transition: all 0.2s ease;
         }
         .refresh-btn:hover {
             background-color: #f5e050;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255,215,0,0.4);
+            box-shadow: 0 0 20px rgba(255,215,0,0.8);
         }
         ::-webkit-scrollbar {
             width: 6px;
@@ -150,10 +151,11 @@
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(255,215,0,0.5);
+            background: rgba(255,215,0,0.8);
             border-radius: 3px;
+            box-shadow: 0 0 10px rgba(255,215,0,0.5);
         }
-        /* 新增优秀个人样式 - 增加闪耀边框 */
+        /* 强化优秀个人样式 */
         .excellent-person-section {
             background: linear-gradient(135deg, #2d2d44 0%, #3a3a5c 100%);
             padding: 30px;
@@ -169,23 +171,22 @@
             gap: 15px;
             margin-top: 20px;
         }
-        /* 优化优秀个人条目样式 - 增加闪耀边框 */
         .excellent-person-item {
             background: rgba(255,215,0,0.1);
-            border: 2px solid #ffd700;
+            border: 3px solid #ffd700;
             border-radius: 10px;
             padding: 12px 20px;
             min-width: 180px;
             font-size: 16px;
             font-weight: bold;
             color: white;
-            /* 优秀个人条目闪耀效果 */
-            box-shadow: 0 0 15px rgba(255,215,0,0.3);
-            animation: glow-person 2.5s ease-in-out infinite alternate;
+            box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 35px rgba(255,215,0,0.4);
+            animation: glow-person 1.8s ease-in-out infinite alternate;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
-        /* 优秀个人条目内部光效 */
+        /* 强化优秀个人流光效果 */
         .excellent-person-item::after {
             content: '';
             position: absolute;
@@ -193,93 +194,35 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shine 3s linear infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shine 2s linear infinite;
         }
         .person-score {
             color: #ffd700;
             margin-left: 8px;
-            text-shadow: 0 0 5px rgba(255,215,0,0.6);
+            text-shadow: 0 0 10px rgba(255,215,0,1);
         }
         .person-group {
             font-size: 14px;
             color: #ccc;
             margin-top: 5px;
         }
-        /* 上榜学生特殊样式 - 增加闪耀边框 */
+        /* 强化上榜学生样式 */
         .honor-student {
-            text-shadow: 0 0 8px rgba(255,215,0,0.8);
-            border-left: 3px solid #ffd700;
+            text-shadow: 0 0 12px rgba(255,215,0,1);
+            border-left: 4px solid #ffd700;
             padding-left: 8px;
-            animation: glow-student 2s ease-in-out infinite alternate;
+            animation: glow-student 1.5s ease-in-out infinite alternate;
+            background: rgba(255,215,0,0.05);
         }
-        
-        /* 动画定义 */
-        /* 优秀小组边框闪耀 */
-        @keyframes glow-border {
-            0% {
-                box-shadow: 0 0 20px rgba(255,215,0,0.5), 0 0 30px rgba(255,215,0,0.3);
-            }
-            100% {
-                box-shadow: 0 0 30px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5), 0 0 50px rgba(255,215,0,0.3);
-            }
-        }
-        /* 渐变背景动画 */
-        @keyframes glow-gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        /* 文字闪耀 */
-        @keyframes glow-text {
-            0% {
-                text-shadow: 0 0 5px rgba(26,26,46,0.5);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            }
-            100% {
-                text-shadow: 0 0 8px rgba(26,26,46,0.8);
-                box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-            }
-        }
-        /* 优秀个人条目闪耀 */
-        @keyframes glow-person {
-            0% {
-                box-shadow: 0 0 15px rgba(255,215,0,0.3), 0 0 20px rgba(255,215,0,0.1);
-                border-color: #ffd700;
-            }
-            100% {
-                box-shadow: 0 0 25px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.4);
-                border-color: #fff9c4;
-            }
-        }
-        /* 上榜学生闪耀 */
-        @keyframes glow-student {
-            0% {
-                text-shadow: 0 0 8px rgba(255,215,0,0.8);
-                border-left-color: #ffd700;
-            }
-            100% {
-                text-shadow: 0 0 15px rgba(255,215,0,1);
-                border-left-color: #fff9c4;
-            }
-        }
-        /* 流光效果 */
-        @keyframes shine {
-            100% {
-                left: 100%;
-            }
-        }
-        /* 优秀小组展示项也添加闪耀 */
+        /* 强化优秀小组展示项 */
         .excellent-item {
             position: relative;
             overflow: hidden;
-            animation: glow-border 2s ease-in-out infinite alternate;
+            animation: glow-border 1.5s ease-in-out infinite alternate;
+            border: 3px solid #ffd700 !important;
+            box-shadow: 0 0 20px rgba(255,215,0,0.7);
+            z-index: 1;
         }
         .excellent-item::after {
             content: '';
@@ -288,8 +231,71 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shine 3s linear infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2.5s linear infinite;
+        }
+        
+        /* 强化动画定义 */
+        @keyframes glow-border {
+            0% {
+                box-shadow: 0 0 25px #ffd700, 0 0 50px rgba(255,215,0,0.6), 0 0 75px rgba(255,215,0,0.4);
+                border-color: #ffd700;
+            }
+            100% {
+                box-shadow: 0 0 40px #ffd700, 0 0 80px rgba(255,215,0,0.8), 0 0 120px rgba(255,215,0,0.6);
+                border-color: #fff9c4;
+            }
+        }
+        @keyframes glow-gradient {
+            0% {
+                background-position: 0% 50%;
+                opacity: 1;
+            }
+            50% {
+                background-position: 100% 50%;
+                opacity: 1;
+            }
+            100% {
+                background-position: 0% 50%;
+                opacity: 1;
+            }
+        }
+        @keyframes glow-text {
+            0% {
+                text-shadow: 0 0 8px rgba(26,26,46,0.8);
+                box-shadow: 0 0 15px rgba(255,215,0,0.8);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(26,26,46,1);
+                box-shadow: 0 0 25px rgba(255,215,0,1);
+            }
+        }
+        @keyframes glow-person {
+            0% {
+                box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 35px rgba(255,215,0,0.4);
+                border-color: #ffd700;
+            }
+            100% {
+                box-shadow: 0 0 35px rgba(255,215,0,0.9), 0 0 50px rgba(255,215,0,0.7);
+                border-color: #fff9c4;
+            }
+        }
+        @keyframes glow-student {
+            0% {
+                text-shadow: 0 0 12px rgba(255,215,0,1);
+                border-left-color: #ffd700;
+                background: rgba(255,215,0,0.05);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255,215,0,1);
+                border-left-color: #fff9c4;
+                background: rgba(255,215,0,0.1);
+            }
+        }
+        @keyframes shine {
+            100% {
+                left: 100%;
+            }
         }
     </style>
 </head>
@@ -557,7 +563,7 @@
             }
         }
 
-        // 筛选并渲染优秀小组（支持并列排名）
+        // 修复：筛选并渲染优秀小组（确保显示完整前三名，含并列）
         function selectExcellentGroups() {
             const excellentList = document.getElementById('excellentList');
             excellentList.innerHTML = '';
@@ -581,48 +587,48 @@
                 return;
             }
 
-            // 2. 处理并列排名逻辑
+            // 2. 重新处理并列排名逻辑（核心修复：确保前三名完整展示）
             const rankedGroups = [];
             let currentRank = 1;
-            let sameScoreCount = 0;
-
+            
+            // 先给所有小组标记排名（处理并列）
             for (let i = 0; i < sortedGroups.length; i++) {
                 const current = sortedGroups[i];
                 const prev = sortedGroups[i - 1];
 
-                // 2.1 如果和上一个小组积分相同，排名不变，并列数+1
-                if (i > 0 && current.total === prev.total) {
-                    sameScoreCount++;
-                } else {
-                    // 2.2 积分不同，更新当前排名（当前位置 - 并列数）
-                    currentRank = i + 1 - sameScoreCount;
-                    sameScoreCount = 0;
+                // 如果不是第一个且积分不同，更新排名
+                if (i > 0 && current.total !== prev.total) {
+                    currentRank = i + 1;
                 }
 
-                // 2.3 只保留前三名（含并列）
-                if (currentRank <= 3) {
-                    rankedGroups.push({
-                        ...current,
-                        rank: currentRank
-                    });
-                } else {
-                    // 非前三名且无并列，终止循环
-                    if (sameScoreCount === 0) break;
-                }
+                // 标记排名并加入列表
+                rankedGroups.push({
+                    ...current,
+                    rank: currentRank
+                });
             }
 
-            // 3. 按排名分组（方便渲染并列小组）
+            // 3. 筛选出排名≤3的所有小组（确保前三名完整，包括并列）
+            const topThreeGroups = rankedGroups.filter(group => group.rank <= 3);
+
+            // 4. 按排名分组（方便渲染并列小组）
             const rankGroups = {};
-            rankedGroups.forEach(group => {
+            topThreeGroups.forEach(group => {
                 if (!rankGroups[group.rank]) {
                     rankGroups[group.rank] = [];
                 }
                 rankGroups[group.rank].push(group);
             });
 
-            // 4. 渲染优秀小组区域和卡片标识
-            Object.entries(rankGroups).forEach(([rank, groups]) => {
-                // 4.1 渲染到优秀小组展示区
+            // 5. 渲染优秀小组区域和卡片标识（确保所有前三相关小组都展示）
+            if (Object.keys(rankGroups).length === 0) {
+                excellentList.innerHTML = '<div class="excellent-item bg-rgba(255,215,0,0.1) border-2 border-yellow-400 rounded-lg px-8 py-4 text-xl font-bold text-white min-w-[120px]">暂无优秀小组</div>';
+                return;
+            }
+
+            // 按排名升序渲染（1→2→3）
+            Object.keys(rankGroups).sort((a, b) => a - b).forEach(rank => {
+                const groups = rankGroups[rank];
                 const rankText = groups.length > 1 ? `第${rank}名（并列）` : `第${rank}名`;
                 const groupText = groups.map(g => `${g.num}组 (${g.total}分)`).join('、');
                 
@@ -631,7 +637,7 @@
                 item.innerHTML = `${rankText}<br>${groupText}`;
                 excellentList.appendChild(item);
 
-                // 4.2 给对应小组卡片添加标识
+                // 给对应小组卡片添加标识
                 groups.forEach(group => {
                     const card = document.getElementById(`group${group.num}`);
                     card.classList.add('excellent-card');
@@ -702,7 +708,7 @@
             alertBox.style.color = '#fff';
             alertBox.style.fontSize = '16px';
             alertBox.style.zIndex = '9999';
-            alertBox.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            alertBox.style.boxShadow = '0 0 15px rgba(255,215,0,0.8)';
             alertBox.style.backgroundColor = isSuccess ? '#4ade80' : '#f87171';
             alertBox.textContent = message;
 
