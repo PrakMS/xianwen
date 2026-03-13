@@ -28,16 +28,15 @@
         .card:hover {
             transform: translateY(-5px);
         }
-        /* 调整优秀小组卡片闪耀效果（降低亮度） */
+        /* 恢复：优秀小组卡片闪耀效果 */
         .excellent-card {
-            border: 4px solid #ffd700;
+            border: 4px solid #ffd700 !important;
             position: relative;
             z-index: 1;
-            /* 降低阴影亮度，减少发光强度 */
             box-shadow: 0 0 15px #ffd700, 0 0 30px rgba(255,215,0,0.3), 0 0 45px rgba(255,215,0,0.2);
             animation: glow-border 1.5s ease-in-out infinite alternate;
         }
-        /* 调整渐变边框动画（降低亮度） */
+        /* 恢复：渐变边框动画 */
         .excellent-card::before {
             content: '';
             position: absolute;
@@ -50,9 +49,10 @@
             background-size: 400% 400%;
             animation: glow-gradient 2s ease infinite;
             z-index: -1;
-            opacity: 0.7; /* 降低透明度，减少亮度 */
-            filter: blur(1px); /* 降低模糊度，减少扩散 */
+            opacity: 0.7;
+            filter: blur(1px);
         }
+        /* 恢复：优秀小组徽章 */
         .excellent-badge {
             position: absolute;
             top: 10px;
@@ -63,7 +63,6 @@
             padding: 8px 15px;
             border-radius: 50px;
             font-size: 14px;
-            /* 降低徽章阴影亮度 */
             box-shadow: 0 0 8px rgba(255,215,0,0.5);
             z-index: 10;
             animation: glow-text 1.5s ease-in-out infinite alternate;
@@ -80,13 +79,11 @@
             padding: 8px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             font-size: 14px;
-            /* 确保整行不换行 */
             white-space: nowrap;
         }
         .student-name {
             flex: 2;
             text-align: left;
-            /* 姓名列单行显示，溢出省略 */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -99,11 +96,10 @@
         .score-item {
             width: 40px;
             text-align: center;
-            /* 核心修改：总分列强制单行 */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: clamp(12px, 1vw, 14px); /* 自适应字体 */
+            font-size: clamp(12px, 1vw, 14px);
         }
         .group-total {
             font-size: 20px;
@@ -167,7 +163,7 @@
             border-radius: 3px;
             box-shadow: 0 0 10px rgba(255,215,0,0.5);
         }
-        /* 恢复：优秀个人样式（去掉出框的炫酷特效） */
+        /* 优秀个人样式（不出框版本） */
         .excellent-person-section {
             background: linear-gradient(135deg, #2d2d44 0%, #3a3a5c 100%);
             padding: 30px;
@@ -192,14 +188,12 @@
             font-size: 16px;
             font-weight: bold;
             color: white;
-            /* 降低优秀个人卡片亮度 */
             box-shadow: 0 0 10px rgba(255,215,0,0.3), 0 0 20px rgba(255,215,0,0.2);
             animation: glow-person 1.8s ease-in-out infinite alternate;
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
-        /* 恢复：基础流光效果（不出框） */
         .excellent-person-item::after {
             content: '';
             position: absolute;
@@ -220,7 +214,7 @@
             color: #ccc;
             margin-top: 5px;
         }
-        /* 调整上榜学生样式（降低亮度） */
+        /* 上榜学生样式 */
         .honor-student {
             text-shadow: 0 0 6px rgba(255,215,0,0.6);
             border-left: 4px solid #ffd700;
@@ -228,7 +222,7 @@
             animation: glow-student 1.5s ease-in-out infinite alternate;
             background: rgba(255,215,0,0.03);
         }
-        /* 核心修改：小组排名所有内容强制同一行显示 */
+        /* 小组排名所有内容强制同一行显示 */
         .excellent-item {
             position: relative;
             overflow: hidden;
@@ -236,21 +230,17 @@
             border: 3px solid #ffd700 !important;
             box-shadow: 0 0 10px rgba(255,215,0,0.4);
             z-index: 1;
-            margin: 10px 5px; /* 缩小间距 */
-            /* 确保单行显示 */
-            white-space: nowrap; /* 禁止换行 */
-            overflow: hidden;    /* 隐藏溢出内容（兜底） */
-            text-overflow: ellipsis; /* 溢出时显示省略号（可选） */
-            /* 字体自适应：最小12px，首选1.2vw，最大18px（更小更紧凑） */
+            margin: 10px 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             font-size: clamp(12px, 1.2vw, 18px);
-            /* 调整内边距，适配单行 */
             padding: 12px 15px !important;
-            /* 确保内容垂直居中 */
-            display: inline-flex; /* 改为inline-flex，实现同行排列 */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: auto; /* 取消最小宽度限制 */
-            max-width: none; /* 取消最大宽度限制 */
+            min-width: auto;
+            max-width: none;
         }
         .excellent-item::after {
             content: '';
@@ -263,17 +253,17 @@
             animation: shine 2.5s linear infinite;
         }
         
-        /* 核心修改：小组排名容器改为单行显示 */
+        /* 小组排名容器改为单行显示 */
         .excellent-list {
-            display: block; /* 改为block，让子元素inline-flex同行显示 */
-            white-space: nowrap; /* 容器内禁止换行 */
-            overflow-x: auto; /* 内容超出时横向滚动 */
+            display: block;
+            white-space: nowrap;
+            overflow-x: auto;
             padding: 10px 0;
             text-align: center;
-            max-width: 100%; /* 限制容器宽度 */
+            max-width: 100%;
         }
         
-        /* 调整动画定义（降低整体亮度） */
+        /* 恢复所有动画 */
         @keyframes glow-border {
             0% {
                 box-shadow: 0 0 15px #ffd700, 0 0 30px rgba(255,215,0,0.3), 0 0 45px rgba(255,215,0,0.2);
@@ -376,7 +366,7 @@
             <h2 class="excellent-title"><i class="fa fa-trophy mr-3"></i>优秀小组表彰</h2>
             <p class="text-lg text-gray-200 mb-4">根据积分排名，以下小组荣获本期优秀小组称号！（积分相同并列）</p>
             <div id="excellentList" class="excellent-list">
-                <div class="excellent-item bg-rgba(255,215,0,0.1) border-2 border-yellow-400 rounded-lg px-8 py-4 text-xl font-bold text-white">
+                <div class="excellent-item bg-rgba(255,215,0,0.1) border-2 border-yellow-400 rounded-lg px-8 py-4 font-bold text-white">
                     数据加载中...
                 </div>
             </div>
@@ -555,7 +545,7 @@
 
                 studentListEl.innerHTML = '';
 
-                // 核心修改：把"个人分"改成"总分"
+                // 表头：个人分 → 总分
                 studentListEl.innerHTML += `
                     <div class="student-item font-bold text-yellow-300">
                         <div class="student-name">姓名</div>
@@ -563,8 +553,8 @@
                             <div class="score-item">课程</div>
                             <div class="score-item">作业</div>
                             <div class="score-item">笔记</div>
-                            <div class="score-item">OJ</div> <!-- 新增OJ表头 -->
-                            <div class="score-item">总分</div> <!-- 修改：个人分 → 总分 -->
+                            <div class="score-item">OJ</div>
+                            <div class="score-item">总分</div>
                         </div>
                     </div>
                 `;
@@ -579,7 +569,6 @@
                 } else {
                     group.students.forEach((student, index) => {
                         const bgClass = index % 2 === 0 ? 'bg-rgba(255,255,255,0.05)' : '';
-                        // 表彰学生添加特殊样式（修改为honor-student类，带闪耀效果）
                         const honorClass = student.isHonor === 1 ? 'honor-student' : '';
                         studentListEl.innerHTML += `
                             <div class="student-item ${bgClass} ${honorClass}">
@@ -588,7 +577,7 @@
                                     <div class="score-item">${student.course}</div>
                                     <div class="score-item">${student.homework}</div>
                                     <div class="score-item">${student.note}</div>
-                                    <div class="score-item">${student.oj}</div> <!-- 新增OJ数据列 -->
+                                    <div class="score-item">${student.oj}</div>
                                     <div class="score-item text-yellow-300">${student.score}</div>
                                 </div>
                             </div>
@@ -601,7 +590,7 @@
             }
         }
 
-        // 修复：筛选并渲染优秀小组（所有排名同行显示）
+        // 筛选并渲染优秀小组（恢复标识和特效）
         function selectExcellentGroups() {
             const excellentList = document.getElementById('excellentList');
             excellentList.innerHTML = '';
@@ -612,7 +601,7 @@
                 .sort((a, b) => b.total - a.total)
                 .filter(group => group.total > 0); // 过滤掉总分0的小组
 
-            // 清除之前的优秀小组标识
+            // 清除之前的优秀小组标识（先清空，避免重复）
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('excellent-card');
                 const badge = card.querySelector('.excellent-badge');
@@ -625,7 +614,7 @@
                 return;
             }
 
-            // 2. 重新处理排名逻辑 - 核心修复点
+            // 2. 重新处理排名逻辑
             // 步骤1：提取所有不同的分数，降序排列
             const uniqueScores = [...new Set(sortedGroups.map(g => g.total))].sort((a, b) => b - a);
             // 步骤2：只取前3个分数（对应1、2、3名）
@@ -652,7 +641,7 @@
                 rankGroups[group.rank].push(group);
             });
 
-            // 4. 渲染所有排名（同行显示）
+            // 4. 渲染所有排名（同行显示） + 给优秀小组卡片加标识和特效
             for (let rank = 1; rank <= 3; rank++) {
                 const groups = rankGroups[rank] || [];
                 if (groups.length === 0) continue; // 无该排名数据则跳过
@@ -663,8 +652,20 @@
                 
                 const item = document.createElement('div');
                 item.className = 'excellent-item bg-rgba(255,215,0,0.1) border-2 border-yellow-400 rounded-lg px-6 py-3 font-bold text-white';
-                item.textContent = fullText; // 用textContent确保纯文本单行
+                item.textContent = fullText;
                 excellentList.appendChild(item);
+
+                // 核心恢复：给优秀小组卡片添加标识和特效
+                groups.forEach(group => {
+                    const card = document.getElementById(`group${group.num}`);
+                    // 添加优秀小组样式类（带闪耀特效）
+                    card.classList.add('excellent-card');
+                    // 创建排名徽章
+                    const badge = document.createElement('div');
+                    badge.className = 'excellent-badge';
+                    badge.textContent = groups.length > 1 ? `第${rank}名（并列）` : `第${rank}名`;
+                    card.appendChild(badge);
+                });
             }
 
             // 兜底：如果没有任何前三数据
@@ -673,7 +674,7 @@
             }
         }
 
-        // 修改：筛选并渲染优秀个人（只展示isHonor=1的学生，最多前10名）
+        // 筛选并渲染优秀个人
         function selectExcellentPersons() {
             const excellentPersonList = document.getElementById('excellentPersonList');
             excellentPersonList.innerHTML = '';
@@ -683,7 +684,7 @@
             for (let groupNum = 1; groupNum <= 12; groupNum++) {
                 honorStudents = honorStudents.concat(
                     allGroupData[groupNum].students
-                        .filter(student => student.isHonor === 1) // 只筛选标记为1的学生
+                        .filter(student => student.isHonor === 1)
                         .map(student => ({
                             ...student,
                             groupNum: groupNum
@@ -700,7 +701,7 @@
             // 按积分降序排序，最多展示前10名
             const sortedHonorStudents = honorStudents
                 .sort((a, b) => b.score - a.score)
-                .slice(0, 10); // 限制最多展示10名
+                .slice(0, 10);
 
             // 渲染优秀个人
             sortedHonorStudents.forEach((student, index) => {
